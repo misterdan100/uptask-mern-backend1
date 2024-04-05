@@ -78,7 +78,7 @@ const Registrar = () => {
         </Link>
         
         <Link
-          to='olvide-password'
+          to='/olvide-password'
           className='block text-center my-5 text-slate-500  text-sm hover:text-sky-500 transition'
         >
         Olvide mi Password!
