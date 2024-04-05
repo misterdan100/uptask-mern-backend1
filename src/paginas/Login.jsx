@@ -31,7 +31,7 @@ const Login = () => {
           <input 
             type="password" 
             id="password"
-            placeholder="Email de Registro"
+            placeholder="Password"
             className="w-full mt-3 p-3 border rounded-xl bg-gray-50"
           />
         </div>
