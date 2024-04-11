@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams, Link} from 'react-router-dom'
 import axios from 'axios'
+import clienteAxios from "../config/clienteAxios.jsx"
 import Alerta from '../components/Alerta.jsx'
 
 const ConfirmarCuenta = () => {
@@ -12,9 +13,7 @@ const ConfirmarCuenta = () => {
   useEffect(() => {
     const confirmarCuenta = async () => {
       try {
-        const url = `http://localhost:4000/api/usuarios/confirmar/${id}`
-
-        const { data } = await axios(url)
+        const { data } = await clienteAxios(`/usuarios/confirmar/${id}`)
         
         setAlerta({
           msg: data.msg,
@@ -55,7 +54,7 @@ const ConfirmarCuenta = () => {
       </div>
 
       {cuentaConfirmada && (
-        <nav className="lg:flex lg:justify-between">
+        <nav className="lg:flex lg:justify-center">
         <Link
           to='/'
           className='block text-center my-5 text-slate-500  text-sm hover:text-sky-500 transition'
