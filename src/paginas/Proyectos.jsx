@@ -10,7 +10,10 @@ const Proyectos = () => {
             Proyectos
         </h1>
 
-        <div></div>
+        <div className="bg-white shadow mt-10 rounded-lg p-5">
+          { proyectos.length ? <p>Si hay proyectos</p> : <p className='text-center text-gray-600 uppercase'>No hay proyectos para mostrar.</p>}
+
+        </div>
     </>
   )
 }
