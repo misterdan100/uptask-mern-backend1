@@ -42,15 +42,10 @@ const ProyectosProvider = ({children}) => {
   const submitProyecto = async proyecto => {
 
     if(proyecto.id) {
-      editarProyecto(proyecto)
+      await editarProyecto(proyecto)
     } else {
-      nuevoProyecto(proyecto)
+      await nuevoProyecto(proyecto)
     }
-
-    return
-
-
-    
   }
 
   const editarProyecto = async proyecto => {
@@ -143,6 +138,40 @@ const ProyectosProvider = ({children}) => {
     setCargando(false)
   }
 
+  const eliminarProyecto = async id => {
+    try {
+
+      const token = localStorage.getItem('token')
+      if(!token) return
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+
+      const { data } = await clienteAxios.delete(`/proyectos/${id}`, config)
+      
+      setAlerta({
+        msg: data.msg,
+        error: false
+      })
+
+      const proyectosActualizados = proyectos.filter( proyectoState => proyectoState._id !== id)
+
+      setProyectos(proyectosActualizados)
+
+      setTimeout(() => {
+        setAlerta({})
+        navigate('/proyectos')
+      }, 3000);
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
     <ProyectosContext.Provider
@@ -153,7 +182,8 @@ const ProyectosProvider = ({children}) => {
       submitProyecto,
       obtenerProyecto,
       proyecto,
-      cargando
+      cargando,
+      eliminarProyecto
     }}
     >
       {children}
