@@ -7,15 +7,32 @@ import Alerta from '../components/Alerta'
 const PRIORIDAD = ["Baja", "Media", "Alta"];
 
 const ModalFormularioTarea = () => {
+  const [id, setId] = useState("")
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [prioridad, setPrioridad] = useState("");
   const [fechaEntrega, setFechaEntrega] = useState("");
 
-  const { id } = useParams()
+  const params = useParams()
 
 
-  const { modalFormularioTarea, handleModalTarea, mostrarAlerta, alerta, submitTarea, } = useProyectos();
+  const { modalFormularioTarea, handleModalTarea, mostrarAlerta, alerta, submitTarea, tarea } = useProyectos();
+
+  useEffect(() => {
+    if(tarea?._id) {
+      setId(tarea._id)
+      setNombre(tarea.nombre)
+      setDescripcion(tarea.descripcion)
+      setPrioridad(tarea.prioridad)
+      setFechaEntrega(tarea.fechaEntrega?.split('T')[0])
+      return
+    }
+    setId('')
+    setNombre('')
+    setDescripcion('')
+    setPrioridad('')
+    setFechaEntrega('')
+  }, [tarea])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -28,7 +45,7 @@ const ModalFormularioTarea = () => {
         return
     }
 
-    await submitTarea({nombre, descripcion, prioridad, fechaEntrega, proyecto: id})
+    await submitTarea({nombre, descripcion, prioridad, fechaEntrega, proyecto: params.id})
 
     setNombre('')
     setDescripcion('')
@@ -103,7 +120,7 @@ const ModalFormularioTarea = () => {
                     as="h3"
                     className="text-lg text-center leading-6 font-bold text-gray-900"
                   >
-                    Crear Tarea
+                    {id ? 'Editar Tarea' : 'Crear Tarea'}
                   </Dialog.Title>
 
                   {alerta.msg && <Alerta alerta={alerta}/>}
@@ -195,8 +212,8 @@ const ModalFormularioTarea = () => {
                     <input
                       type="submit"
                       alue={"Crear Tarea"}
-                      className="bg-sky-600 hover:bg-sky-700 w-full text-white p-3 uppercase font-bold cursor-pointer transition rounded-lg text-sm"
-                      value="Crear Tarea"
+                      className={`${id ? 'bg-amber-600 hover:bg-amber-700' : 'bg-sky-600 hover:bg-sky-700'} w-full text-white p-3 uppercase font-bold cursor-pointer transition rounded-lg text-sm`}
+                      value={`${id ? 'Guardar Cambios' : 'Crear Tarea'}`}
                     />
                   </form>
                 </div>

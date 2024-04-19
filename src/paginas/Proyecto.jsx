@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import useProyectos from "../hooks/useProyectos";
 import ModalFormularioTarea from '../components/ModalFormularioTarea'
@@ -14,7 +14,7 @@ const Proyecto = () => {
     obtenerProyecto(id);
   }, []);
 
-  const { nombre, cliente, descripcion } = proyecto;
+  const { nombre } = proyecto;
 
   if (cargando) return "Cargando...";
 
