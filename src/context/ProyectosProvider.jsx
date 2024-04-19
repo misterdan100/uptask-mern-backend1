@@ -181,37 +181,87 @@ const ProyectosProvider = ({children}) => {
 
   // Task functions ---------------
   const submitTarea = async tarea => {
+
+    if(tarea.id) {
+      await editarTarea(tarea)
+    } else {
+      await crearTarea(tarea)
+    }
+    
+  }
+
+  const crearTarea = async tarea => {
     try {
-      const token = localStorage.getItem('token')
-      if(!token) return
+      const token = localStorage.getItem("token");
+      if (!token) return;
 
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      }
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-      const { data } = await clienteAxios.post(`/tareas`, tarea, config)
+      const { data } = await clienteAxios.post(`/tareas`, tarea, config);
+      const proyectoActualizado = { ...proyecto };
+      proyectoActualizado.tareas = [...proyecto.tareas, data];
+      setProyecto(proyectoActualizado);
 
-      const proyectoActualizado = {...proyecto}
-      proyectoActualizado.tareas = [...proyecto.tareas, data]
-      setProyecto(proyectoActualizado)
-      
       setAlerta({
-        msg: 'Tarea Agregada Correctamente.',
-        error: false
-      })
+        msg: "Tarea Agregada Correctamente.",
+        error: false,
+      });
+
 
       setTimeout(() => {
-        setModalFormularioTarea(false)
-        setAlerta({})
+        setModalFormularioTarea(false);
+        setAlerta({});
       }, 2000);
-      
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
+
+  const editarTarea = async (tarea) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      
+      const { data } = await clienteAxios.put(
+        `/tareas/${tarea.id}`,
+        tarea,
+        config
+      );
+      
+      const proyectoActualizado = { ...proyecto };
+      const tareasActualizadas = proyecto.tareas.map((currentTarea) =>
+        currentTarea._id === tarea.id ? data : currentTarea
+      );
+      proyectoActualizado.tareas = tareasActualizadas;
+      
+      setAlerta({
+        msg: "Tarea Editada Correctamente.",
+        error: false,
+      });
+
+      setProyecto(proyectoActualizado);
+
+      setTimeout(() => {
+        setModalFormularioTarea(false);
+        setAlerta({});
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleModalEditarTarea = tarea => {
     setTarea(tarea)
