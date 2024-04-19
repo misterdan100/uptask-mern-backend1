@@ -4,7 +4,6 @@ import PreviewProyecto from '../components/PreviewProyecto'
 const Proyectos = () => {
   const { proyectos } = useProyectos()
 
-
   return (
     <>
         <h1 className='text-4xl font-black'>

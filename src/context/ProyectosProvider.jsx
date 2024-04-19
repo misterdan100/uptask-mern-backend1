@@ -191,15 +191,20 @@ const ProyectosProvider = ({children}) => {
       }
 
       const { data } = await clienteAxios.post(`/tareas`, tarea, config)
-      console.log(data)
+
+      const proyectoActualizado = {...proyecto}
+      proyectoActualizado.tareas = [...proyecto.tareas, data]
+      setProyecto(proyectoActualizado)
+      
       setAlerta({
-        msg: data,
+        msg: 'Tarea Agregada Correctamente.',
         error: false
       })
 
       setTimeout(() => {
+        setModalFormularioTarea(false)
         setAlerta({})
-      }, 3000);
+      }, 2000);
       
     } catch (error) {
       console.log(error)
