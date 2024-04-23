@@ -10,6 +10,7 @@ const ProyectosProvider = ({children}) => {
   const [ alerta, setAlerta ] = useState({})
   const [ cargando, setCargando ] = useState(false)
   const [ modalFormularioTarea, setModalFormularioTarea] = useState(false)
+  const [ modalEliminarTarea, setModalEliminarTarea] = useState(false)
   const [ tarea, setTarea ] = useState({})
 
   const navigate = useNavigate()
@@ -269,6 +270,47 @@ const ProyectosProvider = ({children}) => {
     setModalFormularioTarea(true)
   }
 
+  const handleModalEliminarTarea = tarea => {
+    if(tarea) {
+      setTarea(tarea)
+    }
+    setModalEliminarTarea(!modalEliminarTarea)
+  }
+
+  const eliminarTarea = async () => {
+    
+    try {
+      const token = localStorage.getItem('token')
+      if(!token) return
+
+      const options = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+
+      const { data } = await clienteAxios.delete(`/tareas/${tarea._id}`, options)
+
+      setAlerta({msg: 'Tarea eliminada!', error: false})
+
+      const proyectoActualizado = {...proyecto}
+      const tareasActualizadas = proyectoActualizado.tareas.filter( tareaState => tareaState._id !== tarea._id)
+      proyectoActualizado.tareas = tareasActualizadas
+      setProyecto(proyectoActualizado)
+
+      setModalEliminarTarea(false)
+      setTarea({})
+
+      setTimeout(() => {
+        setAlerta({})
+      }, 3000);
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   return (
     <ProyectosContext.Provider
@@ -285,7 +327,10 @@ const ProyectosProvider = ({children}) => {
       handleModalTarea,
       submitTarea,
       handleModalEditarTarea,
-      tarea
+      tarea,
+      modalEliminarTarea,
+      handleModalEliminarTarea,
+      eliminarTarea
     }}
     >
       {children}

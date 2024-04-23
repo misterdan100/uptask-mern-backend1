@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import useProyectos from "../hooks/useProyectos";
 import ModalFormularioTarea from '../components/ModalFormularioTarea'
+import ModalEliminarTarea from "../components/ModalEliminarTarea";
 import Tarea from "../components/Tarea";
+import Alerta from "../components/Alerta";
 
 const Proyecto = () => {
-  const { obtenerProyecto, proyecto, cargando, handleModalTarea } = useProyectos();
+  const { obtenerProyecto, proyecto, cargando, handleModalTarea, alerta } = useProyectos();
 
   const params = useParams();
   const { id } = params;
@@ -60,6 +62,14 @@ const Proyecto = () => {
       </button>
 
       <p className="font-bold text-xl mt-10">Tareas del Proyectos</p>
+
+      <div className="flex justify-center">
+        <div className="w-full md:w-1/3 lg:w-1/4">
+          {alerta.msg && <Alerta alerta={alerta}/>}
+
+        </div>
+      </div>
+
       <div className="bg-white shadow mt-10 rounded-lg">
         {proyecto?.tareas?.length ? 
         proyecto.tareas?.map(tarea => (
@@ -71,6 +81,7 @@ const Proyecto = () => {
       </div>
 
       <ModalFormularioTarea />
+      <ModalEliminarTarea />
     </>
   );
 };
