@@ -10,7 +10,7 @@ const Tarea = ({ tarea }) => {
   const { nombre, descripcion, prioridad, fechaEntrega, estado, _id } = tarea;
   return (
     <div className="border-b p-5 flex justify-between items-center ">
-      <div>
+      <div className="flex flex-col items-start">
         <p className="mb-1 text-xl font-bold">{nombre}</p>
         <p className="mb-1 text-sm text-gray-500 uppercase">{descripcion}</p>
         <p className="mb-1 text-md">{formatearFecha(fechaEntrega)}</p>
@@ -25,6 +25,7 @@ const Tarea = ({ tarea }) => {
             {prioridad}
           </span>
         </p>
+        { estado && <p className="text-xs bg-green-200 uppercase py-1 px-3 rounded-lg text-black border-green-600 border-2 font-bold">Completada por: {tarea.completado?.nombre}</p>}
       </div>
 
       <div className="flex justify-end gap-2 flex-wrap">

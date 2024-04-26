@@ -5,8 +5,6 @@ const PreviewProyecto = ({ proyecto }) => {
   const { auth } = useAuth();
   const { nombre, _id, cliente, creador } = proyecto;
 
-  console.log(auth);
-
   return (
     <div className="border-b p-5 flex justify-between hover:bg-gray-50 transition ">
       <div className="flex items-center gap-2">

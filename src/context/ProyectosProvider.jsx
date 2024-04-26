@@ -440,8 +440,7 @@ const ProyectosProvider = ({children}) => {
       const proyectoActualizado = {...proyecto}
       proyectoActualizado.tareas = proyectoActualizado.tareas.map( tareaState => {
         if(tareaState._id === data._id) {
-          tareaState.estado = data.estado
-          return tareaState
+          return data
         }
         return tareaState
       } ) 
