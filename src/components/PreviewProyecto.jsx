@@ -6,7 +6,7 @@ const PreviewProyecto = ({ proyecto }) => {
   const { nombre, _id, cliente, creador } = proyecto;
 
   return (
-    <div className="border-b p-5 flex justify-between hover:bg-gray-50 transition ">
+    <div className="border-b p-5 flex flex-col md:flex-row justify-between hover:bg-gray-50 transition ">
       <div className="flex items-center gap-2">
         <p className="flex-1">
           {nombre}

@@ -28,7 +28,7 @@ const Tarea = ({ tarea }) => {
         { estado && <p className="text-xs bg-green-200 uppercase py-1 px-3 rounded-lg text-black border-green-600 border-2 font-bold">Completada por: {tarea.completado?.nombre}</p>}
       </div>
 
-      <div className="flex justify-end gap-2 flex-wrap">
+      <div className="flex flex-col lg:flex-row justify-end gap-2 flex-wrap">
         {admin && (
           <button
             onClick={() => handleModalEditarTarea(tarea)}
