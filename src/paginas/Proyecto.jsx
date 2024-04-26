@@ -12,8 +12,8 @@ import ModalEliminarColaborador from "../components/ModalEliminarColaborador";
 const Proyecto = () => {
   const { obtenerProyecto, proyecto, cargando, handleModalTarea, alerta } =
     useProyectos();
-  
-  const admin = useAdmin()
+
+  const admin = useAdmin();
 
   const params = useParams();
   const { id } = params;
@@ -26,9 +26,7 @@ const Proyecto = () => {
 
   if (cargando) return "Cargando...";
 
-  return alerta.msg && alerta.error ? (
-    <Alerta alerta={alerta} />
-  ) : (
+  return  (
     <>
       <div className="flex justify-between">
         <h1 className="font-black text-4xl">{nombre}</h1>
@@ -75,11 +73,7 @@ const Proyecto = () => {
 
       <p className="font-bold text-xl mt-10">Tareas del Proyectos</p>
 
-      <div className="flex justify-center">
-        <div className="w-full md:w-1/3 lg:w-1/4">
-          {alerta.msg && <Alerta alerta={alerta} />}
-        </div>
-      </div>
+      
 
       <div className="bg-white shadow mt-10 rounded-lg">
         {proyecto?.tareas?.length ? (
@@ -93,36 +87,31 @@ const Proyecto = () => {
         )}
       </div>
 
-        {admin && (
-          <>
+      {admin && (
+        <>
           <div className="flex items-center justify-between mt-10">
-          <p className="font-bold text-xl">Colaboradores</p>
-          <Link
-            to={`/proyectos/nuevo-colaborador/${proyecto._id}`}
-            className="text-gray-400 uppercase font-bold hover:text-sky-600"
-          >
-            Añadir
-          </Link>
-        </div>
-  
-        <div className="bg-white shadow mt-10 rounded-lg">
-          {proyecto?.colaboradores?.length ? (
-            proyecto.colaboradores?.map((colaborador) => (
-              <Colaborador key={colaborador._id} colaborador={colaborador} />
-            ))
-          ) : (
-            <p className="text-gray-500 text-center my-5 p-10">
-              No hay colaboradores para este proyecto.
-            </p>
-          )}
-        </div>
+            <p className="font-bold text-xl">Colaboradores</p>
+            <Link
+              to={`/proyectos/nuevo-colaborador/${proyecto._id}`}
+              className="text-gray-400 uppercase font-bold hover:text-sky-600"
+            >
+              Añadir
+            </Link>
+          </div>
+
+          <div className="bg-white shadow mt-10 rounded-lg">
+            {proyecto?.colaboradores?.length ? (
+              proyecto.colaboradores?.map((colaborador) => (
+                <Colaborador key={colaborador._id} colaborador={colaborador} />
+              ))
+            ) : (
+              <p className="text-gray-500 text-center my-5 p-10">
+                No hay colaboradores para este proyecto.
+              </p>
+            )}
+          </div>
         </>
-        )}
-          
-        
-      
-
-
+      )}
 
       <ModalFormularioTarea />
       <ModalEliminarTarea />
